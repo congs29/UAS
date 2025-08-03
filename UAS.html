@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UNIQLO</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .header, .footer {
+            background-color: #E60012;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+        .menu {
+            background-color: #f5f5f5;
+            text-align: center;
+            padding: 10px;
+        }
+        .menu a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+        }
+        .container {
+            display: flex;
+            padding: 10px;
+        }
+        .sidebar {
+            width: 20%;
+            background-color: #f0f0f0;
+            padding: 10px;
+        }
+        .content {
+            width: 60%;
+            padding: 10px;
+        }
+        #invoice {
+            display: none;
+            padding: 20px;
+            border-top: 2px solid #ccc;
+            background-color: #fafafa;
+        }
+        #invoice h2 {
+            color: #E60012;
+        }
+        .btn {
+            background-color: #E60012;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #c4000f;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 6px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>UNIQLO Indonesia</h1>
+    </div>
+
+    <!-- MENU -->
+    <div class="menu">
+        <a href="#beranda">Beranda</a> |
+        <a href="#transaksi">Pembelian</a> |
+        <a href="#tentang">Tentang Kami</a>
+    </div>
+
+    <!-- BERANDA -->
+    <div id="beranda" class="container">
+        <div class="sidebar">
+            <h4>Kategori</h4>
+            <ul>
+                <li>Kaos</li>
+                <li>Kemeja</li>
+                <li>Jaket</li>
+            </ul>
+        </div>
+        <div class="content">
+            <marquee>Promo Spesial Musim Panas! Diskon hingga 50%!</marquee>
+            <h2>Produk Terlaris - Kaos Polo</h2>
+            <img src="Baju pria.avif" alt="Polo" width="250" height="300">
+            <p>Kemeja pria berkualitas, nyaman dan stylish untuk segala suasana. Tersedia ukuran S - XL.</p>
+            <p>Harga: Rp 299.000</p>
+            <img src="Kemeja wanita.avif" alt="Kemeja Wanita" width="250" height="300">
+            <p>Kemeja wanita katun berkualitas, desain elegan dan nyaman dipakai. Tersedia ukuran S - XL.</p>   
+            <p>Harga: Rp 399.000</p>
+            <img src="Rompi.avif" alt="Rompi Uniqlo" width="250" height="300">
+            <p>PUFFTECH Rompi - Ringan dan hangat, cocok untuk musim dingin. Tersedia ukuran S - XL.</p>
+            <p>Harga: Rp 699.000</p>
+            <img src="Jaket Parka.avif" alt="Jaket Parka" width="250" height="300">
+            <p>Jaket Parka Reversibel (Water-Repellent) - Tahan air, cocok untuk cuaca hujan. Tersedia ukuran S - XL.</p>
+            <p>Harga: Rp 599.000</p>
+            <a href="#transaksi">Beli Sekarang</a>
+        </div>
+        <div class="sidebar">
+            <h4>Populer</h4>
+            <ul>
+                <li>Polo Pique</li>
+                <li>PUFFTECH Rompi</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- TRANSAKSI -->
+    <div id="transaksi" style="padding:20px; border-top:2px solid #ccc;">
+        <h2>Form Pembelian Produk</h2>
+        <form id="formTransaksi">
+            <label>Nama:</label>
+            <input type="text" name="nama" id="nama" required><br><br>
+
+            <label>Email:</label>
+            <input type="email" name="email" id="email" required><br><br>
+
+            <label>Produk:</label>
+            <select id="produk">
+                <option>Kaos Polo</option>
+                <option>Kemeja Garis</option>
+                <option>Rompi</option>
+                <option>Jaket Parka</option>
+            </select><br><br>
+
+            <label>Ukuran:</label>
+            <select id="ukuran">
+                <option>S</option>
+                <option>M</option>
+                <option>L</option>
+                <option>XL</option>
+            </select><br><br>
+
+            <label>Alamat Pengiriman:</label><br>
+            <textarea id="alamat" rows="4"></textarea><br><br>
+
+            <label>Metode Pembayaran:</label>
+            <select id="pembayaran" onchange="tampilkanQR()">
+                <option>Transfer Bank</option>
+                <option>COD</option>
+                <option>QRIS</option>
+            </select><br><br>
+
+
+            <button type="button" class="btn" onclick="buatInvoice()">Checkout</button>
+        </form>
+    </div>
+
+    <!-- INVOICE -->
+    <div id="invoice">
+    <div id="qrisSection" style="display:none; text-align: center; padding: 20px;">
+    <h3>Silakan Scan QRIS untuk Pembayaran</h3>
+    <img src="qr.png" alt="QRIS" width="200" height="200">
+    <p>QRIS a.n. UNIQLO</p>
+</div>
+    <h2>Invoice Pembelian</h2>
+    <p><strong>Nama:</strong> <span id="invNama"></span></p>
+    <p><strong>Email:</strong> <span id="invEmail"></span></p>
+    <p><strong>Produk:</strong> <span id="invProduk"></span></p>
+    <p><strong>Ukuran:</strong> <span id="invUkuran"></span></p>
+    <p><strong>Alamat:</strong> <span id="invAlamat"></span></p>
+    <p><strong>Metode Pembayaran:</strong> <span id="invBayar"></span></p>
+    <hr>
+    <p><strong>Harga Satuan:</strong> <span id="hargaSatuan"></span></p>
+    <p><strong>Ongkos Kirim:</strong> <span id="ongkir"></span></p>
+    <p><strong>Total Pembayaran:</strong> <span id="totalBayar" style="font-weight: bold; color: #E60012;"></span></p>
+</div>
+
+    </div>
+
+    <!-- TENTANG KAMI -->
+    <div id="tentang" style="padding:20px; border-top:2px solid #ccc;">
+        <h2>Tentang UNIQLO</h2>
+        <img src="uniqlo.png" alt="Uniqlo" width="100"><br><br>
+        <img src="ghifary.png" alt="Ghifary Rusydan" width="100"><br><br>
+        <p>UNIQLO adalah merek pakaian global asal Jepang yang hadir di Indonesia dengan koleksi LifeWear berkualitas tinggi, fungsional dan terjangkau.</p>
+        <p>Nama: Muhammad Ghifary Rusydan</p>
+        <p>Nim: 10524086</p>
+        <p>Kelas: IS 2</p>
+        <p>Alamat: Perum oesman singawinata blok j 26, Kab. Purwakarta, Jawa Barat, Indonesia</p>
+        <p>Email: ghifaryr29@gmail.com</p>
+        <p>Telepon: 0859-7532-0038</p>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>© 2025 UNIQLO Indonesia - Tugas Website Statis</p>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        function buatInvoice() {
+    const hargaProduk = {
+        "Kaos Polo": 299000,
+        "Kemeja Garis": 399000,
+        "Rompi": 699000,
+        "Jaket Parka": 599000
+    };
+
+    const nama = document.getElementById("nama").value;
+    const email = document.getElementById("email").value;
+    const produk = document.getElementById("produk").value;
+    const ukuran = document.getElementById("ukuran").value;
+    const alamat = document.getElementById("alamat").value;
+    const pembayaran = document.getElementById("pembayaran").value;
+
+    // Pindahkan ke sini setelah deklarasi variabel
+    if (pembayaran === "QRIS") {
+        document.getElementById("qrisSection").style.display = "block";
+    } else {
+        document.getElementById("qrisSection").style.display = "none";
+    }
+
+    const hargaSatuan = hargaProduk[produk];
+    const ongkir = 20000;
+    const total = hargaSatuan + ongkir;
+
+    document.getElementById("invNama").innerText = nama;
+    document.getElementById("invEmail").innerText = email;
+    document.getElementById("invProduk").innerText = produk;
+    document.getElementById("invUkuran").innerText = ukuran;
+    document.getElementById("invAlamat").innerText = alamat;
+    document.getElementById("invBayar").innerText = pembayaran;
+    document.getElementById("hargaSatuan").innerText = formatRupiah(hargaSatuan);
+    document.getElementById("ongkir").innerText = formatRupiah(ongkir);
+    document.getElementById("totalBayar").innerText = formatRupiah(total);
+    document.getElementById("invoice").style.display = "block";
+    document.getElementById("invoice").scrollIntoView({behavior: "smooth"});
+}
+        function formatRupiah(angka) {
+            return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        function tampilkanQR() {
+            const pembayaran = document.getElementById("pembayaran").value;
+            if (pembayaran === "QRIS") {
+                document.getElementById("qrisSection").style.display = "block";
+            } else {
+                document.getElementById("qrisSection").style.display = "none";
+            }
+        }
+
+
+    </script>
+
+</body>
+</html>
